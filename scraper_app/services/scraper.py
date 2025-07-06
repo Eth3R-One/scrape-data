@@ -7,7 +7,36 @@ import time
 import json
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
-from env import get_env_variable
+from env import get_env_variable, get_env_without_exception
+from django.core.mail import send_mail
+
+
+def send_scraping_report(new_items, removed_items, unchanged_items):
+    email_host = get_env_without_exception("EMAIL_HOST_USER")
+    emails = get_env_without_exception("EMAIL_SEND_TO") or ""
+    emails = emails.replace("[", "").replace("]", "").replace('"', "").replace("'", "")
+    recipient_list = [e.strip() for e in emails.split(",") if e.strip()]
+
+    if not email_host or not recipient_list:
+        print("Please set EMAIL_HOST_USER and EMAIL_SEND_TO in environment.")
+        return
+    if len(new_items) > 0 or len(removed_items) > 0 or len(unchanged_items) > 0:
+        message = (
+            f"Scraping Report:\n"
+            f"- New items: {len(new_items)}\n"
+            f"- Removed items: {len(removed_items)}\n"
+            f"- Unchanged items: {len(unchanged_items)}"
+        )
+
+        send_mail(
+            subject="Scraping Report",
+            message=message,
+            from_email=email_host,
+            recipient_list=recipient_list,
+            fail_silently=False,
+        )
+        print("Scraping report email sent.")
+
 
 
 BASE_URL = get_env_variable("BASE_URL")
@@ -117,6 +146,9 @@ def scrape_data():
     )
 
     print(f"Scrape done. New: {len(new_items)}, Removed: {len(removed_items)}, Unchanged: {len(unchanged_items)}")
+
+    # send mail if any changes
+    send_scraping_report(new_items, removed_items, unchanged_items)
 
     return {
         "new_count": len(new_items),

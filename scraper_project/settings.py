@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
-from env import get_env_variable
+from env import get_env_variable, get_env_without_exception
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -145,3 +145,14 @@ CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_TIMEZONE = "Asia/Dhaka"  # or your timezone
+
+
+# mail setup
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = get_env_without_exception('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = get_env_without_exception('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = get_env_without_exception('DEFAULT_FROM_EMAIL')
