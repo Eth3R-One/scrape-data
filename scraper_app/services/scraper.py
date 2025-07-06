@@ -5,17 +5,24 @@ import requests
 from datetime import datetime
 import time
 import json
-import random
-
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 from env import get_env_variable
+
 
 BASE_URL = get_env_variable("BASE_URL")
 LIST_URL = get_env_variable("LIST_URL")
 
 
 def fetch_page(url):
+
+    session = requests.Session()
+    retries = Retry(total=5, backoff_factor=0.3, status_forcelist=[500, 502, 503, 504])
+    session.mount("https://", HTTPAdapter(max_retries=retries))
+    session.mount("http://", HTTPAdapter(max_retries=retries))
+
     headers = {"User-Agent": "Mozilla/5.0"}
-    response = requests.get(url, headers=headers, timeout=10)
+    response = session.get(url, headers=headers, timeout=30)
     response.raise_for_status()
     return response.text
 
@@ -119,3 +126,6 @@ def scrape_data():
         "removed_items": removed_items,
         "unchanged_items": unchanged_items,
     }
+
+def test_func():
+    print("test print for service")
