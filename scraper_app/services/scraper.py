@@ -31,11 +31,8 @@ def scrape_data():
     new_items = []
     unchanged_items = []
     removed_items = []
-
-    # Randomly pick 5 for now
-    items_to_process = random.sample(items, min(5, len(items)))
-
-    for item in items_to_process:
+    
+    for item in items:
         link_tag = item.select_one("h3.title a")
         if not link_tag:
             continue
