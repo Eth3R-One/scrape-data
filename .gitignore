@@ -208,3 +208,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# all pycache file ignore
+**/__pycache__/**
+*.pyc
