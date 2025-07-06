@@ -91,7 +91,7 @@ def trigger_scrape(request):
         result = scrape_data()
         sidebar_logs = ScrapeLog.objects.order_by('-created_at')[:10]
         items = ScrapedItem.objects.all()
-        return render(request, "scraper_app/home.html", {
+        return render(request, "scraper_app/partials/items_list.html", {
             "sidebar_logs": sidebar_logs,
             "items": items,
             "result": result,
