@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import ScrapedItem, ScrapeLog
 
-# Register your models here.
+admin.site.register(ScrapedItem)
+admin.site.register(ScrapeLog)
