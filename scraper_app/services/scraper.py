@@ -1,3 +1,4 @@
+
 from scraper_app.models import ScrapedItem, ScrapeLog
 from bs4 import BeautifulSoup
 import requests
@@ -6,8 +7,11 @@ import time
 import json
 import random
 
-BASE_URL = "https://www.fbi.gov"
-LIST_URL = "https://www.fbi.gov/wanted/wcc"
+from env import get_env_variable
+
+BASE_URL = get_env_variable("BASE_URL")
+LIST_URL = get_env_variable("LIST_URL")
+
 
 def fetch_page(url):
     headers = {"User-Agent": "Mozilla/5.0"}
