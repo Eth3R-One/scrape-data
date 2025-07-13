@@ -305,5 +305,4 @@ Visit:
 http://your_domain.com
 ```
 you'll see `>>>>> Celery is working! <<<<<` and it's mean everything is working for schedule job
-```
-```
+
