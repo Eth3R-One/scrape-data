@@ -21,6 +21,8 @@ This is a Django app that scrapes wanted persons from the FBI website, tracks ne
 - click check new changes button to scrap data which calls the previous scrape_data method with htmx-get method
 - differences are shown with new and removed title and some green for new and red for removed color format
 - everything is wrapped with django auth, and login required decorator
+- sidebar shows the log of scraping, by clicking one log you'll see the unchanged data, new data and removed data
+- click check new changes button to scrap data
 - search box searches data from the current saved data in database without website reload
 - there's a management command named `scrape_data_task` run it `python manage.py scrape_data_task`
 - setup mail if you want update of scrape data changes, instructions given below
@@ -300,3 +302,4 @@ Visit:
 ```
 http://your_domain.com
 ```
+you'll see `>>>>> Celery is working! <<<<<` and it's mean everything is working for schedule job
