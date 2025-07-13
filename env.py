@@ -12,3 +12,6 @@ def get_env_variable(var_name):
     if value is None or value == "":
         raise RuntimeError(f"Environment variable '{var_name}' is not set or empty.")
     return value
+
+def get_env_without_exception(var_name):
+    return os.getenv(var_name)
